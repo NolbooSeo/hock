@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="DIASDAQ.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

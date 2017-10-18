@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Collections;
 using TeeChart;
 using System.Runtime.InteropServices;   //[DLLImport("xxx.dll")] 시 선언
+using System.Reflection;
 
 
 
@@ -23,6 +24,16 @@ namespace WF_App1
         int ROI_count = 0;
 
         uint m_nNumDetectDevices = 0;   // Number of Device
+
+        ushort pSizeX = 0, pSizeY = 0;      // Total pixel size of camera 
+
+        IntPtr hIRDX = new IntPtr();       // IRDX handle
+
+        uint bufSize = 0;
+
+        float pFrameBuffer = 0;
+
+        uint img_step = 0;
 
         public MainForm()
         {
@@ -39,25 +50,6 @@ namespace WF_App1
         {
             return 32;
         }
-        
-        [DllImport("DIASDAQ.dll", CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        public static extern uint DDAQ_DEVICE_DO_DETECTION();
-
-        [DllImport("DIASDAQ.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint DDAQ_DEVICE_GET_IDSTRING(uint nDevNo, byte[] pBuf, int nBufSize);
-
-        [DllImport("DIASDAQ.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint DDAQ_DEVICE_DO_UPDATEDATA(uint nDevNo);
-
-        [DllImport("DIASDAQ.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint DDAQ_IRDX_PIXEL_GET_DATA(int hIRDX, float[] pData, uint BufSize);
-
-        [DllImport("DIASDAQ.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static unsafe extern uint DDAQ_IRDX_PIXEL_GET_SIZE(IntPtr hIRDX, uint pSizex, uint pSizeY);
-
-        [DllImport("DIASDAQ.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe uint DDAQ_DEVICE_GET_IRDX(uint nDevNo, out IntPtr handle);
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -117,7 +109,8 @@ namespace WF_App1
             //UseWaitCursor();
             Cursor.Current = Cursors.WaitCursor;
 
-            m_nNumDetectDevices = DDAQ_DEVICE_DO_DETECTION();
+
+            m_nNumDetectDevices = DIASDAQ.DDAQ_DEVICE_DO_DETECTION();
 
             Cursor.Current = Cursors.Default;
 
@@ -129,10 +122,23 @@ namespace WF_App1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (m_nNumDetectDevices > 0)
+            //if (m_nNumDetectDevices > 0)
+            //{
+            //    textBox1.Text = getIDString(1);
+            //}
+            DIASDAQ.DDAQ_ERROR error= DIASDAQ.DDAQ_DEVICE_DO_UPDATEDATA(m_nNumDetectDevices);
+
+            //if (DIASDAQ.DDAQ_DEVICE_DO_UPDATEDATA(m_nNumDetectDevices) != 0)
+            //    return;
+
+            if(DIASDAQ.DDAQ_IRDX_PIXEL_GET_DATA(hIRDX, ref pFrameBuffer, bufSize) != 0)
             {
-                textBox1.Text = getIDString(1);
+                Bitmap bmp = GET_BITMAP(hIRDX);
+                //bmp = new Bitmap((Image)bmp, new Size(picBox.Width, picBox.Height));
+                pictureBox1.Image = (Image)bmp;
             }
+            
+
         }
         private string getIDString(uint DevNo)
         {
@@ -141,14 +147,8 @@ namespace WF_App1
             byte[] pBuf = new byte[64];
             char[] pID = new char[64];
 
-            nResult = DDAQ_DEVICE_GET_IDSTRING(1, pBuf, 64);
-            /*
-            unsafe
-            {
-                fixed (char* _pBuf = pBuf)
-                    nResult = DDAQ_DEVICE_GET_IDSTRING(1, pBuf, 64);
-            }
-            */
+            nResult = DIASDAQ.DDAQ_DEVICE_GET_IDSTRING(1, pBuf, 64);
+
             for (int i = 0; i < 64; i++)
             {
                 pID[i] = (char)pBuf[i];
@@ -176,33 +176,84 @@ namespace WF_App1
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (m_nNumDetectDevices <= 0)
-                return;
+            //if (m_nNumDetectDevices <= 0)
+            //    return;
 
-            if (DDAQ_DEVICE_DO_UPDATEDATA(m_nNumDetectDevices) == 0)
-                return;
+            ////if (DDAQ_DEVICE_DO_UPDATEDATA(m_nNumDetectDevices) == 0)
+            ////    return;
 
-            uint pSizeX = 0, pSizeY = 0;
+            //DIASDAQ.DDAQ_DEVICE_DO_OPEN(m_nNumDetectDevices, null);
 
-            IntPtr handle;
 
-            if (DDAQ_DEVICE_GET_IRDX(m_nNumDetectDevices, out handle) != 0)
-                return;
 
-            unsafe
+            ////IntPtr handle = Marshal.AllocHGlobal(Marshal.SizeOf(marshal_tmp));
+
+            ////Marshal.StructureToPtr(marshal_tmp, handle, true);
+
+            //uint a = 1, b = 4;
+            //swap(ref a, ref b);
+            //uint c = a;
+
+            //DIASDAQ.DDAQ_DEVICE_GET_IRDX(m_nNumDetectDevices, ref hIRDX);
+
+
+            //if (DIASDAQ.DDAQ_IRDX_PIXEL_GET_SIZE(hIRDX, ref pSizeX, ref pSizeY) == 0)
+            //    return;
+
+
+            ////ushort numpi = pSizeX;
+            //uint numPix = pSizeX;
+            //bufSize = (uint)numPix * sizeof(float);
+
+            //pFrameBuffer = new float();
+            //Marshal.FreeHGlobal(handle);
+
+            //-------------------------------------------------------------------
+            IntPtr hirdx = new IntPtr();
+
+            string str = "H:\\PyroSoftM\\PyroSoftM\\POSCO\\saving_1.irdx";
+
+            DIASDAQ.DDAQ_IRDX_FILE_OPEN_READ(str, false, ref hIRDX);
+            Bitmap bmp = GET_BITMAP(hIRDX);
+            bmp = new Bitmap((Image)bmp, new Size(pictureBox1.Width, pictureBox1.Height));
+            pictureBox1.Image = (Image)bmp;
+            //----------------------------------------------------------------------
+        }
+
+        private static void swap(ref uint a, ref uint b)
+        {
+            uint i = a; a = b; b = i;
+        }
+
+        private static Bitmap GET_BITMAP(IntPtr hIRDX)
+        {
+            IntPtr pbitsImage = new IntPtr();
+            IntPtr bmiImage = new IntPtr();
+            ushort width = 0, height = 0;
+            if (DIASDAQ.DDAQ_IRDX_IMAGE_GET_BITMAP(hIRDX, ref width, ref height, out pbitsImage, out bmiImage) != DIASDAQ.DDAQ_ERROR.NO_ERROR)
             {
-                IntPtr tmp = Marshal.AllocHGlobal(sizeof(long));
-
-                void* handle2 = tmp.ToPointer();
-
-                //if (!DDAQ_DEVICE_GET_IRDXHandle(m_nNumDetectDevices, &handle2))
-                //    return;
-
-                if (DDAQ_IRDX_PIXEL_GET_SIZE(handle, pSizeX, pSizeY) == 0)
-                return;
-
-                //Marshal.FreeHGlobal(handle);
+                return null; // failure
             }
+
+            MethodInfo mi = typeof(Bitmap).GetMethod("FromGDIplus", BindingFlags.Static | BindingFlags.NonPublic);
+
+            if (mi == null)
+            {
+                return null; // permission problem 
+            }
+
+            IntPtr pBmp = IntPtr.Zero;
+            int status = DIASDAQ.GDIPLUS_GdipCreateBitmapFromGdiDib(bmiImage, pbitsImage, out pBmp);
+
+            if ((status == 0) && (pBmp != IntPtr.Zero))
+            {
+                return (Bitmap)mi.Invoke(null, new object[] { pBmp }); // success 
+            }
+            else
+            {
+                return null; // failure
+            }
+
         }
 
         private void toolB_addRect_Click(object sender, EventArgs e)
@@ -300,7 +351,7 @@ namespace WF_App1
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            ROIListView.ColumnCount = Constants.ROIListView_ColumnCount;
+            ROIListView.ColumnCount = Constants.columnCount;
             //ROIListView.RowCount =
 
             //ROIListView.Columns[0].Name = "Idx";
@@ -314,6 +365,12 @@ namespace WF_App1
             if(ROIListView.Rows.Count > 0)
                 ROIListView.Rows.Insert(0,row0);
             //ROIListView.Rows.Add(row0);
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            DIASDAQ.DDAQ_ERROR error =  DIASDAQ.DDAQ_IRDX_FILE_SET_CURDATASET(hIRDX, img_step);
+            img_step++;
         }
 
         private void toolB_ROIDataDelete_Click(object sender, EventArgs e)

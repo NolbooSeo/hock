@@ -20,7 +20,7 @@ namespace WF_App1
         public const int ShowMin = 8;
 
         // ROIListView 세로 및 가로 속성 개수
-        public const int ROIListView_ColumnCount = 5;
+        public const int columnCount = 5;
         //public const int ROIListView_RowCount
     }
 }

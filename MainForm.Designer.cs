@@ -96,6 +96,10 @@
             this.toolB_showLabel = new System.Windows.Forms.ToolStripButton();
             this.toolB_showMaxTemp = new System.Windows.Forms.ToolStripButton();
             this.toolB_showMinTemp = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolB_ROIDataOpen = new System.Windows.Forms.ToolStripButton();
+            this.toolB_ROIDataSave = new System.Windows.Forms.ToolStripButton();
+            this.toolB_ROIDataDelete = new System.Windows.Forms.ToolStripButton();
             this.ROIListView = new System.Windows.Forms.DataGridView();
             this.tools_mainFrm = new System.Windows.Forms.ToolStrip();
             this.toolB_online = new System.Windows.Forms.ToolStripButton();
@@ -114,10 +118,7 @@
             this.toolB_prevFocus = new System.Windows.Forms.ToolStripButton();
             this.toolB_nextFocus = new System.Windows.Forms.ToolStripButton();
             this.toolB_endFocus = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolB_ROIDataOpen = new System.Windows.Forms.ToolStripButton();
-            this.toolB_ROIDataSave = new System.Windows.Forms.ToolStripButton();
-            this.toolB_ROIDataDelete = new System.Windows.Forms.ToolStripButton();
+            this.button1 = new System.Windows.Forms.Button();
             this.menu_PyroSoft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitC_generalView)).BeginInit();
             this.splitC_generalView.Panel1.SuspendLayout();
@@ -559,6 +560,7 @@
             // 
             // splitC_view.Panel1
             // 
+            this.splitC_view.Panel1.Controls.Add(this.button1);
             this.splitC_view.Panel1.Controls.Add(this.pictureBox1);
             this.splitC_view.Panel1.Controls.Add(this.textBox1);
             this.splitC_view.Panel1.Controls.Add(this.btn_startAcq);
@@ -744,6 +746,42 @@
             this.toolB_showMinTemp.Size = new System.Drawing.Size(23, 22);
             this.toolB_showMinTemp.Text = "toolStripButton8";
             this.toolB_showMinTemp.Click += new System.EventHandler(this.toolB_showMinTemp_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolB_ROIDataOpen
+            // 
+            this.toolB_ROIDataOpen.BackColor = System.Drawing.Color.LightGray;
+            this.toolB_ROIDataOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolB_ROIDataOpen.Image = ((System.Drawing.Image)(resources.GetObject("toolB_ROIDataOpen.Image")));
+            this.toolB_ROIDataOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolB_ROIDataOpen.Name = "toolB_ROIDataOpen";
+            this.toolB_ROIDataOpen.Size = new System.Drawing.Size(23, 22);
+            this.toolB_ROIDataOpen.Text = "toolStripButton1";
+            // 
+            // toolB_ROIDataSave
+            // 
+            this.toolB_ROIDataSave.BackColor = System.Drawing.Color.LightGray;
+            this.toolB_ROIDataSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolB_ROIDataSave.Image = ((System.Drawing.Image)(resources.GetObject("toolB_ROIDataSave.Image")));
+            this.toolB_ROIDataSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolB_ROIDataSave.Name = "toolB_ROIDataSave";
+            this.toolB_ROIDataSave.Size = new System.Drawing.Size(23, 22);
+            this.toolB_ROIDataSave.Text = "toolStripButton2";
+            // 
+            // toolB_ROIDataDelete
+            // 
+            this.toolB_ROIDataDelete.BackColor = System.Drawing.Color.LightGray;
+            this.toolB_ROIDataDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolB_ROIDataDelete.Image = ((System.Drawing.Image)(resources.GetObject("toolB_ROIDataDelete.Image")));
+            this.toolB_ROIDataDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolB_ROIDataDelete.Name = "toolB_ROIDataDelete";
+            this.toolB_ROIDataDelete.Size = new System.Drawing.Size(23, 22);
+            this.toolB_ROIDataDelete.Text = "toolStripButton3";
+            this.toolB_ROIDataDelete.Click += new System.EventHandler(this.toolB_ROIDataDelete_Click);
             // 
             // ROIListView
             // 
@@ -943,41 +981,15 @@
             this.toolB_endFocus.Text = "toolStripButton4";
             this.toolB_endFocus.ToolTipText = "Move focus to far";
             // 
-            // toolStripSeparator6
+            // button1
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolB_ROIDataOpen
-            // 
-            this.toolB_ROIDataOpen.BackColor = System.Drawing.Color.LightGray;
-            this.toolB_ROIDataOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolB_ROIDataOpen.Image = ((System.Drawing.Image)(resources.GetObject("toolB_ROIDataOpen.Image")));
-            this.toolB_ROIDataOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolB_ROIDataOpen.Name = "toolB_ROIDataOpen";
-            this.toolB_ROIDataOpen.Size = new System.Drawing.Size(23, 22);
-            this.toolB_ROIDataOpen.Text = "toolStripButton1";
-            // 
-            // toolB_ROIDataSave
-            // 
-            this.toolB_ROIDataSave.BackColor = System.Drawing.Color.LightGray;
-            this.toolB_ROIDataSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolB_ROIDataSave.Image = ((System.Drawing.Image)(resources.GetObject("toolB_ROIDataSave.Image")));
-            this.toolB_ROIDataSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolB_ROIDataSave.Name = "toolB_ROIDataSave";
-            this.toolB_ROIDataSave.Size = new System.Drawing.Size(23, 22);
-            this.toolB_ROIDataSave.Text = "toolStripButton2";
-            // 
-            // toolB_ROIDataDelete
-            // 
-            this.toolB_ROIDataDelete.BackColor = System.Drawing.Color.LightGray;
-            this.toolB_ROIDataDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolB_ROIDataDelete.Image = ((System.Drawing.Image)(resources.GetObject("toolB_ROIDataDelete.Image")));
-            this.toolB_ROIDataDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolB_ROIDataDelete.Name = "toolB_ROIDataDelete";
-            this.toolB_ROIDataDelete.Size = new System.Drawing.Size(23, 22);
-            this.toolB_ROIDataDelete.Text = "toolStripButton3";
-            this.toolB_ROIDataDelete.Click += new System.EventHandler(this.toolB_ROIDataDelete_Click);
+            this.button1.Location = new System.Drawing.Point(562, 92);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(98, 41);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Next_Img";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // MainForm
             // 
@@ -1119,6 +1131,7 @@
         private System.Windows.Forms.ToolStripButton toolB_ROIDataOpen;
         private System.Windows.Forms.ToolStripButton toolB_ROIDataSave;
         private System.Windows.Forms.ToolStripButton toolB_ROIDataDelete;
+        private System.Windows.Forms.Button button1;
     }
 }
 
