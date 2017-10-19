@@ -22,5 +22,16 @@ namespace WF_App1
         // ROIListView 세로 및 가로 속성 개수
         public const int columnCount = 5;
         //public const int ROIListView_RowCount
+
+        // Type of Device
+        public const int DDAQ_DEVICE_TYPE_VIEW_100 = 1;
+        public const int DDAQ_DEVICE_TYPE_VIEW_256 = 2;
+        public const int DDAQ_DEVICE_TYPE_VIEW_320 = 3;
+        public const int DDAQ_DEVICE_TYPE_MIDAS = 4;
+        public const int DDAQ_DEVICE_TYPE_MODULE_128 = 10;
+        public const int DDAQ_DEVICE_TYPE_LINE_128 = 11;
+        public const int DDAQ_DEVICE_TYPE_LINE_256 = 12;
+        public const int DDAQ_DEVICE_TYPE_HZK_160 = 13;
+        public const int DDAQ_DEVICE_TYPE_HZK_256 = 14;
     }
 }

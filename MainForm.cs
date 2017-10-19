@@ -112,9 +112,12 @@ namespace WF_App1
 
             m_nNumDetectDevices = DIASDAQ.DDAQ_DEVICE_DO_DETECTION();
 
+            if (m_nNumDetectDevices <= 0 || m_nNumDetectDevices > 32 || DIASDAQ.DDAQ_DEVICE_DO_OPEN(m_nNumDetectDevices, null) != DIASDAQ.DDAQ_ERROR.NO_ERROR)
+                return;
+
             Cursor.Current = Cursors.Default;
 
-            if(m_nNumDetectDevices > 0)
+            if (m_nNumDetectDevices > 0)
             {
                 MessageBox.Show("디바이스 연결 성공");
             }
@@ -126,11 +129,43 @@ namespace WF_App1
             //{
             //    textBox1.Text = getIDString(1);
             //}
-            DIASDAQ.DDAQ_ERROR error= DIASDAQ.DDAQ_DEVICE_DO_UPDATEDATA(m_nNumDetectDevices);
 
-            //if (DIASDAQ.DDAQ_DEVICE_DO_UPDATEDATA(m_nNumDetectDevices) != 0)
-            //    return;
 
+            //-----------------------------------------
+            //DIASDAQ.DDAQ_SET_TEMPPRECISION();
+
+            //DIASDAQ.DDAQ_IRDX_OBJECT_SET_EMISSIVITY();
+            //DIASDAQ.DDAQ_IRDX_OBJECT_SET_TRANSMISSION();
+            //DIASDAQ.DDAQ_IRDX_PALLET_SET_BAR();
+            //DIASDAQ.DDAQ_IRDX_SCALE_SET_MINMAX();
+            //DIASDAQ.DDAQ_IRDX_PALLET_SET_ISOTHERM();
+
+            //DIASDAQ.DDAQ_IRDX_FILE_GET_NUMDATASETS();
+            //DIASDAQ.DDAQ_IRDX_FILE_GET_CURDATASET();
+            //DIASDAQ.DDAQ_IRDX_DEVICE_GET_IDSTRING();
+            //DIASDAQ.DDAQ_IRDX_DEVICE_GET_ID();
+            //DIASDAQ.DDAQ_IRDX_DEVICE_GET_DETECTORTEMP();
+            //DIASDAQ.DDAQ_IRDX_DEVICE_GET_CAMERATEMP();
+            //DIASDAQ.DDAQ_IRDX_PIXEL_GET_SIZE();
+            //DIASDAQ.DDAQ_IRDX_ACQUISITION_GET_TIMESTAMP();
+            //DIASDAQ.DDAQ_IRDX_DEVICE_GET_MRANGEMINMAX();
+            //DIASDAQ.DDAQ_IRDX_DEVICE_GET_INTERNALFPS();
+            //DIASDAQ.DDAQ_IRDX_ACQUISITION_GET_AVERAGING();
+
+
+            //-----------------------------------------
+
+
+
+
+
+
+
+            DIASDAQ.DDAQ_ERROR error = DIASDAQ.DDAQ_DEVICE_DO_UPDATEDATA(m_nNumDetectDevices);
+
+            if ( error != DIASDAQ.DDAQ_ERROR.NO_ERROR)
+                return;
+            
             if(DIASDAQ.DDAQ_IRDX_PIXEL_GET_DATA(hIRDX, ref pFrameBuffer, bufSize) != 0)
             {
                 Bitmap bmp = GET_BITMAP(hIRDX);
@@ -176,47 +211,31 @@ namespace WF_App1
 
         private void button4_Click(object sender, EventArgs e)
         {
-            //if (m_nNumDetectDevices <= 0)
-            //    return;
-
-            ////if (DDAQ_DEVICE_DO_UPDATEDATA(m_nNumDetectDevices) == 0)
-            ////    return;
-
-            //DIASDAQ.DDAQ_DEVICE_DO_OPEN(m_nNumDetectDevices, null);
+          
+           if( DIASDAQ.DDAQ_DEVICE_GET_IRDX(m_nNumDetectDevices, ref hIRDX) != DIASDAQ.DDAQ_ERROR.NO_ERROR)
+                return;
 
 
-
-            ////IntPtr handle = Marshal.AllocHGlobal(Marshal.SizeOf(marshal_tmp));
-
-            ////Marshal.StructureToPtr(marshal_tmp, handle, true);
-
-            //uint a = 1, b = 4;
-            //swap(ref a, ref b);
-            //uint c = a;
-
-            //DIASDAQ.DDAQ_DEVICE_GET_IRDX(m_nNumDetectDevices, ref hIRDX);
+            if (DIASDAQ.DDAQ_IRDX_PIXEL_GET_SIZE(hIRDX, ref pSizeX, ref pSizeY) != DIASDAQ.DDAQ_ERROR.NO_ERROR)
+                return;
 
 
-            //if (DIASDAQ.DDAQ_IRDX_PIXEL_GET_SIZE(hIRDX, ref pSizeX, ref pSizeY) == 0)
-            //    return;
+            //ushort numpi = pSizeX;
+            uint numPix = (uint)pSizeX * pSizeY;
+            bufSize = (uint)numPix * sizeof(float);
 
-
-            ////ushort numpi = pSizeX;
-            //uint numPix = pSizeX;
-            //bufSize = (uint)numPix * sizeof(float);
-
-            //pFrameBuffer = new float();
+            pFrameBuffer = new float();
             //Marshal.FreeHGlobal(handle);
 
             //-------------------------------------------------------------------
-            IntPtr hirdx = new IntPtr();
+            //IntPtr hirdx = new IntPtr();
 
-            string str = "H:\\PyroSoftM\\PyroSoftM\\POSCO\\saving_1.irdx";
+            //string str = "H:\\PyroSoftM\\PyroSoftM\\POSCO\\saving_1.irdx";
 
-            DIASDAQ.DDAQ_IRDX_FILE_OPEN_READ(str, false, ref hIRDX);
-            Bitmap bmp = GET_BITMAP(hIRDX);
-            bmp = new Bitmap((Image)bmp, new Size(pictureBox1.Width, pictureBox1.Height));
-            pictureBox1.Image = (Image)bmp;
+            //DIASDAQ.DDAQ_IRDX_FILE_OPEN_READ(str, false, ref hIRDX);
+            //Bitmap bmp = GET_BITMAP(hIRDX);
+            //bmp = new Bitmap((Image)bmp, new Size(pictureBox1.Width, pictureBox1.Height));
+            //pictureBox1.Image = (Image)bmp;
             //----------------------------------------------------------------------
         }
 
